@@ -12,4 +12,14 @@ export const authApi = {
       return res.data;
     });
   },
+  login: (params: { username: string; password: string }) => {
+    return axiosClient.post('auth/login', params).then((res) => {
+      return res.data;
+    });
+  },
+  verifyToken: () => {
+    return axiosClient.post('auth/verify-token').then((res) => {
+      return res.data;
+    });
+  },
 };
