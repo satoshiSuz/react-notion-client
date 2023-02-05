@@ -8,14 +8,50 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { memoApi } from '../../api/memoApi';
 import { assets } from '../../assets';
+import { setMemo } from '../../redux/features/memoSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 export const Sidebar = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const { memoId } = useParams();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.value);
+  const memos = useAppSelector((state) => state.memo.value);
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem('token');
     navigate('/login');
+  };
+
+  useEffect(() => {
+    const getMemos = async () => {
+      try {
+        const res = await memoApi.getAll();
+        dispatch(setMemo(res));
+      } catch (err) {
+        alert(err);
+      }
+    };
+    getMemos();
+  }, [dispatch]);
+
+  useEffect(() => {
+    setActiveIndex(memos.findIndex((e) => e._id === memoId));
+  }, [navigate]);
+
+  const addMemo = async () => {
+    try {
+      const res = await memoApi.create();
+      const newMemos = [res, ...memos];
+      dispatch(setMemo(newMemos));
+      navigate(`/memo/${res._id}`);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
@@ -42,7 +78,7 @@ export const Sidebar = () => {
             }}
           >
             <Typography variant='body2' fontWeight='700'>
-              username
+              {user.username}
             </Typography>
             <IconButton onClick={logout}>
               <LogoutIcon fontSize='small' />
@@ -77,11 +113,26 @@ export const Sidebar = () => {
             <Typography variant='body2' fontWeight='700'>
               プライベート
             </Typography>
-            <IconButton>
+            <IconButton onClick={() => addMemo()}>
               <AddBoxOutlined fontSize='small' />
             </IconButton>
           </Box>
         </ListItemButton>
+        {memos.map((item, index) => {
+          return (
+            <ListItemButton
+              sx={{ pl: '20px' }}
+              component={Link}
+              to={`/memo/${item._id}`}
+              key={item._id}
+              selected={index === activeIndex}
+            >
+              <Typography variant='body2'>
+                {item.icon} {item.title}
+              </Typography>
+            </ListItemButton>
+          );
+        })}
       </List>
     </Drawer>
   );
