@@ -33,7 +33,7 @@ export const Sidebar = () => {
         const res = await memoApi.getAll();
         dispatch(setMemo(res));
       } catch (err) {
-        alert(err);
+        // alert(err);
       }
     };
     getMemos();
@@ -50,7 +50,7 @@ export const Sidebar = () => {
       dispatch(setMemo(newMemos));
       navigate(`/memo/${res._id}`);
     } catch (err) {
-      alert(err);
+      // alert(err);
     }
   };
 

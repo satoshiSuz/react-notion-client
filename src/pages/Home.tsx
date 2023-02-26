@@ -21,7 +21,7 @@ export const Home = () => {
       dispatch(setMemo(newMemos));
       navigate(`/memo/${res._id}`);
     } catch (err) {
-      alert(err);
+      // alert(err);
     } finally {
       setLoading(false);
     }

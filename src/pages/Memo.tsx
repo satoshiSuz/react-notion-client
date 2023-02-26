@@ -27,7 +27,7 @@ export const Memo = () => {
           setIcon(res.icon);
         }
       } catch (err) {
-        alert(err);
+        // alert(err);
       }
     };
     getMemo();
@@ -50,7 +50,7 @@ export const Memo = () => {
           await memoApi.update(memoId, { title: newTitle });
         }
       } catch (err) {
-        alert(err);
+        // alert(err);
       }
     }, timeout);
   };
@@ -66,7 +66,7 @@ export const Memo = () => {
           await memoApi.update(memoId, { description: newDescription });
         }
       } catch (err) {
-        alert(err);
+        // alert(err);
       }
     }, timeout);
   };
@@ -87,7 +87,7 @@ export const Memo = () => {
         dispatch(setMemo(newMemos));
       }
     } catch (err) {
-      alert(err);
+      // alert(err);
     }
   };
 
@@ -102,7 +102,7 @@ export const Memo = () => {
         await memoApi.update(memoId, { icon: newIcon });
       }
     } catch (err) {
-      alert(err);
+      // alert(err);
     }
   };
 
