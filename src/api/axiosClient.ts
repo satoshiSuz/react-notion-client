@@ -3,7 +3,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosRequestHeaders,
 } from 'axios';
-const BASE_URL = 'http://localhost:3001/api/v1';
+const BASE_URL = 'https://notion-clone-server.onrender.com/api/v1';
 
 export const axiosClient = axios.create({ baseURL: BASE_URL });
 const getToken = () => localStorage.getItem('token');
